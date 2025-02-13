@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { MenuItem } from "../entities/entities";
-import { getDatabase, push, ref } from "firebase/database";
-import { initializeApp } from "firebase/app";
+import { db } from "../firebaseConfig";
+import { ref, push } from "firebase/database";
 import logger from "../services/logger";
 
 interface MenuState
@@ -52,19 +52,7 @@ const initialState: MenuState = {
     message: null
 };
 
-const firebaseConfig = {
-    apiKey: "AIzaSyC2eim7o52-1qm8JHc8KpeReeMtmvILGdU",
-    authDomain: "comidadiri.firebaseapp.com",
-    databaseURL: "https://comidadiri-default-rtdb.firebaseio.com",
-    projectId: "comidadiri",
-    storageBucket: "comidadiri.firebasestorage.app",
-    messagingSenderId: "647627909900",
-    appId: "1:647627909900:web:fab8cb7fec7c7015153729",
-    measurementId: "G-WFB7HSTPQD"
-};
 
-const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
 
 //El asyncThunk se usa para la llamada al la API de firebase
 export const orderItemAsync = createAsyncThunk("menu/orderItem",
