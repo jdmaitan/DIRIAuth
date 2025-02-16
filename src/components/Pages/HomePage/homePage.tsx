@@ -9,7 +9,7 @@ const HomePage: React.FC = () => {
         <p>Por favor, haga login para acceder al menú de pedidos.</p>
       </div>
       <div className="restaurant-image">
-        <img src="images/restaurantLogo.png" alt="Restaurant XYZ" />
+        <img src={`${import.meta.env.BASE_URL}images/restaurantLogo.png`} alt="Restaurant XYZ" />
       </div>
     </div>
   );
