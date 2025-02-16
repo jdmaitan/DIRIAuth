@@ -14,9 +14,11 @@ import StockPage from './components/Pages/StockPage/stockPage';
 
 const App: React.FC = () =>
 {
+    const basename = import.meta.env.BASE_URL;
+
     return (
         <AuthProvider> {/* Proveedor de autenticación para gestionar el estado del usuario. */}
-            <Router> {/* Enrutador principal de la aplicación. */}
+            <Router basename={basename}> {/* Enrutador principal de la aplicación. */}
                 <Navbar /> {/* Barra de navegación común en toda la app. */}
                 <div className="main-content"> {/* Contenido principal de cada página. */}
                     <Routes> {/* Define las rutas de la aplicación. */}

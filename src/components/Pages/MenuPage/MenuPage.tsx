@@ -28,7 +28,7 @@ function MenuPage()
                                 onClick={() => handleMenuItemClick(menuItem)}> {/* Click handler para seleccionar item. */}
                                 <img
                                     className="foodImg"
-                                    src={`/images/${menuItem.image}`}
+                                    src={`images/${menuItem.image}`}
                                     alt={menuItem.name}
                                 />
                                 <div className="foodItem">
