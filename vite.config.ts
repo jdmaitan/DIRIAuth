@@ -1,14 +1,14 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
-export default defineConfig(() =>
-  {
-  
+export default defineConfig(({ mode }) =>
+{
+
     return {
-      base: '/DIRIAuth/',
-      build: {
-        outDir: 'docs',
-      },
-      plugins: [react()],
+        base: mode === 'production' ? '/DIRIAuth/' : '/',
+        build: {
+            outDir: 'docs',
+        },
+        plugins: [react()],
     }
-  })
+})

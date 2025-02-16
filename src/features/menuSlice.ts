@@ -13,7 +13,7 @@ interface MenuState
 }
 
 const initialState: MenuState = {
-    menuItems: [
+    menuItems: [ // Datos iniciales de los items del menú.
         {
             id: 1,
             name: "Hamburguesa de Pollo",
@@ -47,19 +47,17 @@ const initialState: MenuState = {
             image: "ensalada.jpg"
         }
     ],
-    loading: false,
-    error: null,
-    message: null
+    loading: false, // Indica si se está realizando una petición.
+    error: null, // Almacena mensajes de error.
+    message: null // Almacena mensajes de información/éxito.
 };
 
-
-
-//El asyncThunk se usa para la llamada al la API de firebase
+// AsyncThunk para guardar el pedido en Firebase.
 export const orderItemAsync = createAsyncThunk("menu/orderItem",
     async ({ orderedItem, orderedQuantity }: { orderedItem: MenuItem; orderedQuantity: number }) =>
     {
-        const ordersRef = ref(db, "orders");
-        const orderToSave = {
+        const ordersRef = ref(db, "orders"); // Referencia al nodo "orders" en la base de datos.
+        const orderToSave = { // Objeto con los datos del pedido a guardar.
             id: orderedItem.id,
             name: orderedItem.name,
             orderedQuantity,
@@ -67,9 +65,9 @@ export const orderItemAsync = createAsyncThunk("menu/orderItem",
             totalPrice: orderedQuantity * orderedItem.price
         };
 
-        await push(ordersRef, orderToSave)
-            .then(result => logger.info(`Se han guardado los datos exitosamente en la base de datos. URL de consulta: ${result}`));
-        return { orderedItem, orderedQuantity };
+        await push(ordersRef, orderToSave) // Guarda el pedido en Firebase.
+            .then(result => logger.info(`Pedido guardado. URL: ${result}`)); // Registra un mensaje de éxito.
+        return { orderedItem, orderedQuantity }; // Retorna los datos del pedido.
     }
 );
 
@@ -78,7 +76,7 @@ const menuSlice = createSlice({
     initialState,
     reducers: {
         clearMessage: (state) =>
-        {
+        { // Limpia el mensaje de la orden.
             state.message = null;
         }
     },
@@ -86,31 +84,30 @@ const menuSlice = createSlice({
     {
         builder
             .addCase(orderItemAsync.pending, (state) =>
-            {
-                state.loading = true;
-                state.message = "Enviando pedido...";
-                state.error = null;
+            { // Caso pendiente de la petición.
+                state.loading = true; // Establece loading a true.
+                state.message = "Enviando pedido..."; // Mensaje de "Enviando pedido".
+                state.error = null; // Limpia errores anteriores.
             })
             .addCase(orderItemAsync.fulfilled, (state, action) =>
-            {
-                //Una vez que se se logra con exito el guardado en la base de
-                //datos de firebase, se modifica el estado con redux
-                state.loading = false;
-                state.message = "Pedido enviado con éxito";
-                const { orderedItem, orderedQuantity } = action.payload;
+            { // Caso de petición exitosa.
+                state.loading = false; // Establece loading a false.
+                state.message = "Pedido enviado con éxito"; // Mensaje de éxito.
+                const { orderedItem, orderedQuantity } = action.payload; // Obtiene los datos del pedido.
+                // Actualiza la cantidad de items en el menú.
                 state.menuItems = state.menuItems.map((menuItem) =>
                     menuItem.id === orderedItem.id ? { ...menuItem, quantity: menuItem.quantity - orderedQuantity } : menuItem
                 );
             })
             .addCase(orderItemAsync.rejected, (state) =>
-            {
-                state.loading = false;
-                state.message = null;
-                state.error = "Error al enviar el pedido. Intente nuevamente.";
+            { // Caso de petición fallida.
+                state.loading = false; // Establece loading a false.
+                state.message = null; // Limpia mensajes anteriores.
+                state.error = "Error al enviar el pedido. Intente nuevamente."; // Mensaje de error.
             });
     }
 });
 
 
-export const { clearMessage } = menuSlice.actions;
-export default menuSlice.reducer;
+export const { clearMessage } = menuSlice.actions; // Exporta la acción clearMessage.
+export default menuSlice.reducer; // Exporta el reducer.

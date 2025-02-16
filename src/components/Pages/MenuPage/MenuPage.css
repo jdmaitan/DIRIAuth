@@ -1,3 +1,12 @@
+.menuContainer{
+  font-family: sans-serif;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 20px;
+	background-color: #f8f8f8;
+}
+
 .ulFoods {
     list-style: none;
     padding: 0;

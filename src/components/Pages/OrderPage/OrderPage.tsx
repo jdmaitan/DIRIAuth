@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { clearMessage, orderItemAsync } from "../../features/menuSlice";
-import { MenuItem } from "../../entities/entities";
-import { AppDispatch, RootState } from "../../store/store";
+import { clearMessage, orderItemAsync } from "../../../features/menuSlice";
+import { MenuItem } from "../../../entities/entities";
+import { AppDispatch, RootState } from "../../../store/store";
 import "./OrderPage.css";
 
 interface OrderPageProps
